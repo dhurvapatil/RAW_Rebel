@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us | RAW REBEL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    :root {
+      --neon-orange: #ff5500;
+      --neon-blue: #00f0ff;
+      --dark-bg: #111111;
+      --darker-bg: #000000;
+      --light-text: #f5f5f5;
+      --glow-shadow: 0 0 10px rgba(255, 85, 0, 0.7);
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--light-text);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="10" y="10"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="30" y="40"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="70" y="20"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="50" y="60"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="80" y="80"/></svg>');
+      opacity: 0.3;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    header {
+      background-color: var(--darker-bg);
+      color: var(--light-text);
+      padding: 20px 40px;
+      border-bottom: 2px solid var(--neon-orange);
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 42px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+      display: inline-block;
+      color: var(--light-text);
+      text-shadow: 0 0 10px rgba(255, 85, 0, 0.5);
+    }
+
+    header h1::after {
+      content: 'RAW REBEL';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--neon-orange);
+      z-index: -1;
+      filter: blur(4px);
+      opacity: 0.7;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin-top: 15px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--light-text);
+      font-weight: bold;
+      text-transform: uppercase;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+      font-size: 18px;
+      position: relative;
+      padding: 5px 0;
+      transition: color 0.3s;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--neon-orange);
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: var(--neon-orange);
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    nav ul li a.active {
+      color: var(--neon-orange);
+    }
+
+    nav ul li a.active::after {
+      width: 100%;
+    }
+
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+      gap: 15px;
+    }
+
+    .auth-btn {
+      background-color: transparent;
+      color: var(--light-text);
+      border: 1px solid var(--neon-orange);
+      padding: 8px 15px;
+      text-decoration: none;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+      font-size: 16px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: var(--neon-orange);
+      transition: all 0.3s;
+      z-index: -1;
+    }
+
+    .auth-btn:hover {
+      color: white;
+      box-shadow: 0 0 8px rgba(255, 85, 0, 0.5);
+    }
+
+    .auth-btn:hover::before {
+      left: 0;
+    }
+
+    .auth-btn.signup {
+      background-color: var(--neon-orange);
+      color: white;
+    }
+
+    .auth-btn.signup::before {
+      background-color: transparent;
+    }
+
+    .auth-btn.signup:hover {
+      background-color: transparent;
+      color: var(--light-text);
+    }
+
+    .welcome-text {
+      color: var(--neon-orange);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+      font-size: 16px;
+    }
+
+    main {
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contact-hero {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 60px 40px;
+      margin-bottom: 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 85, 0, 0.1);
+    }
+
+    .contact-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--neon-orange), transparent);
+    }
+
+    .page-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 64px;
+      margin-bottom: 15px;
+      color: var(--light-text);
+      text-shadow: 0 0 15px rgba(255, 85, 0, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      position: relative;
+    }
+
+    .contact-hero p {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #aaa;
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .contact-form-container {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      border-radius: 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 85, 0, 0.1);
+      position: relative;
+    }
+
+    .contact-form-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background-color: var(--neon-orange);
+    }
+
+    .contact-info {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      border-radius: 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 85, 0, 0.1);
+      position: relative;
+    }
+
+    .contact-info::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 3px;
+      height: 100%;
+      background-color: var(--neon-orange);
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      margin-bottom: 25px;
+      color: var(--light-text);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background-color: var(--neon-orange);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: var(--light-text);
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--light-text);
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--neon-orange);
+      box-shadow: 0 0 8px rgba(255, 85, 0, 0.5);
+    }
+
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background-color: var(--neon-orange);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2px;
+      font-size: 18px;
+      transition: all 0.3s;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.2);
+      transition: all 0.3s;
+      z-index: 1;
+    }
+
+    .submit-btn:hover {
+      box-shadow: 0 0 15px rgba(255, 85, 0, 0.7);
+    }
+
+    .submit-btn:hover::before {
+      left: 100%;
+    }
+
+    .contact-details {
+      margin-bottom: 30px;
+    }
+
+    .contact-details h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: var(--neon-orange);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .contact-details p {
+      margin-bottom: 10px;
+      color: #aaa;
+      line-height: 1.6;
+    }
+
+    .contact-list {
+      list-style: none;
+      margin-bottom: 30px;
+    }
+
+    .contact-list li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: flex-start;
+      color: var(--light-text);
+    }
+
+    .contact-list li strong {
+      display: inline-block;
+      min-width: 100px;
+      margin-right: 10px;
+      color: var(--neon-orange);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+      font-size: 18px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .social-link {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--light-text);
+      border: 1px solid rgba(255, 85, 0, 0.3);
+      text-align: center;
+      line-height: 40px;
+      transition: all 0.3s;
+    }
+
+    .social-link:hover {
+      background-color: var(--neon-orange);
+      color: black;
+      box-shadow: 0 0 15px rgba(255, 85, 0, 0.7);
+      transform: translateY(-3px);
+    }
+
+    .map-container {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
+      margin-top: 40px;
+      border: 1px solid rgba(255, 85, 0, 0.2);
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .alert {
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 0;
+      font-weight: 500;
+    }
+
+    .alert-success {
+      background-color: rgba(0, 255, 0, 0.1);
+      border-left: 4px solid #00c851;
+      color: #00c851;
+    }
+
+    .alert-danger {
+      background-color: rgba(255, 0, 0, 0.1);
+      border-left: 4px solid #ff4444;
+      color: #ff4444;
+    }
+
+    .store-hours {
+      margin-top: 30px;
+    }
+
+    .store-hours h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: var(--neon-orange);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hours-list {
+      list-style: none;
+    }
+
+    .hours-list li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hours-list li:last-child {
+      border-bottom: none;
+    }
+
+    .day {
+      font-weight: bold;
+      color: var(--light-text);
+    }
+
+    .time {
+      color: #aaa;
+    }
+
+    footer {
+      text-align: center;
+      padding: 50px 20px 30px;
+      background-color: var(--darker-bg);
+      color: #fff;
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--neon-orange), transparent);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      text-align: left;
+      margin-bottom: 50px;
+    }
+
+    .footer-section h3 {
+      color: var(--neon-orange);
+      margin-bottom: 25px;
+      font-size: 20px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 12px;
+    }
+
+    .footer-section ul li a {
+      color: #aaa;
+      text-decoration: none;
+      transition: all 0.3s;
+      position: relative;
+      padding-left: 0;
+    }
+
+    .footer-section ul li a::before {
+      content: '›';
+      position: absolute;
+      left: -15px;
+      opacity: 0;
+      color: var(--neon-orange);
+      transition: all 0.3s;
+    }
+
+    .footer-section ul li a:hover {
+      color: var(--light-text);
+      padding-left: 15px;
+    }
+
+    .footer-section ul li a:hover::before {
+      opacity: 1;
+      left: 0;
+    }
+
+    .copyright {
+      padding-top: 30px;
+      border-top: 1px solid #333;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+      }
+
+      header h1 {
+        font-size: 32px;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .auth-buttons {
+        width: 100%;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-hero {
+        padding: 40px 20px;
+      }
+
+      .page-title {
+        font-size: 36px;
+      }
+
+      .contact-form-container,
+      .contact-info {
+        padding: 25px;
+      }
+
+      .section-title {
+        font-size: 26px;
+      }
+
+      .contact-details h3,
+      .store-hours h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>RAW REBEL</h1>
+    <nav>
+      <ul>
+        <li><a href="/homepage">Home</a></li>
+        <li><a href="{% url 'products' %}">Products</a></li>
+        <li><a href="{% url 'collections' %}">Collections</a></li>
+        <li><a href="{% url 'contact' %}" class="active">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="auth-buttons">
+      {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="auth-btn">Logout</a>
+        <span class="welcome-text">Hello, {{ user.username }}</span>
+      {% else %}
+        <a href="{% url 'login' %}" class="auth-btn">Login</a>
+        <a href="{% url 'signup' %}" class="auth-btn signup">Sign Up</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main>
+    <div class="contact-hero">
+      <h1 class="page-title">Contact Us</h1>
+      <p>Have questions, feedback, or just want to connect? We're here for you. Reach out and let's start a conversation.</p>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="contact-container">
+      <div class="contact-form-container">
+        <h2 class="section-title">Send Us a Message</h2>
+        <form action="{% url 'contact' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="name">Your Name*</label>
+            <input type="text" id="name" name="name" class="form-control" value="{{ name|default:'' }}" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Your Email*</label>
+            <input type="email" id="email" name="email" class="form-control" value="{{ email|default:'' }}" required>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" class="form-control" value="{{ subject|default:'' }}">
+          </div>
+          <div class="form-group">
+            <label for="message">Your Message*</label>
+            <textarea id="message" name="message" class="form-control" required>{{ message|default:'' }}</textarea>
+          </div>
+          <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+      </div>
+
+      <div class="contact-info">
+        <h2 class="section-title">Get In Touch</h2>
+        
+        <div class="contact-details">
+          <h3>Our Flagship Store</h3>
+          <p>Visit our flagship store to experience the full RAW REBEL vibe and shop our complete collection in person.</p>
+        </div>
+        
+        <ul class="contact-list">
+          <li>
+            <strong>Address:</strong>
+            <span>42 Urban Street, Fashion District, Metropolis, 54321</span>
+          </li>
+          <li>
+            <strong>Phone:</strong>
+            <span>+1 (555) 123-4567</span>
+          </li>
+          <li>
+            <strong>Email:</strong>
+            <span>info@rawrebel.com</span>
+          </li>
+          <li>
+            <strong>Support:</strong>
+            <span>support@rawrebel.com</span>
+          </li>
+        </ul>
+        
+        <div class="store-hours">
+          <h3>Store Hours</h3>
+          <ul class="hours-list">
+            <li>
+              <span class="day">Monday - Friday</span>
+              <span class="time">10:00 AM - 9:00 PM</span>
+            </li>
+            <li>
+              <span class="day">Saturday</span>
+              <span class="time">9:00 AM - 10:00 PM</span>
+            </li>
+            <li>
+              <span class="day">Sunday</span>
+              <span class="time">11:00 AM - 7:00 PM</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="social-links">
+          <a href="#" class="social-link">FB</a>
+          <a href="#" class="social-link">IG</a>
+          <a href="#" class="social-link">TW</a>
+          <a href="#" class="social-link">TT</a>
+        </div>
+        
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.305935303!2d-74.25986548248684!3d40.69714941932609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1589643275269!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About RAW REBEL</h3>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Manifesto</a></li>
+          <li><a href="#">Join The Team</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Customer Service</h3>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Shipping & Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Policies</h3>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Return Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Connect With Us</h3>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 RAW REBEL | All Rights Reserved</p>
+    </div>
+  </footer>
+
+</body>
+</html> 

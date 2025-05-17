@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | RAW REBEL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    :root {
+      --neon-orange: #ff5500;
+      --neon-blue: #00f0ff;
+      --dark-bg: #111111;
+      --darker-bg: #000000;
+      --light-text: #f5f5f5;
+      --glow-shadow: 0 0 10px rgba(255, 85, 0, 0.7);
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--light-text);
+      position: relative;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="10" y="10"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="30" y="40"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="70" y="20"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="50" y="60"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="80" y="80"/></svg>');
+      opacity: 0.3;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    header {
+      background-color: var(--darker-bg);
+      color: var(--light-text);
+      padding: 20px 40px;
+      border-bottom: 2px solid var(--neon-orange);
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 42px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+      display: inline-block;
+      color: var(--light-text);
+      text-shadow: 0 0 10px rgba(255, 85, 0, 0.5);
+    }
+
+    header h1::after {
+      content: 'RAW REBEL';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--neon-orange);
+      z-index: -1;
+      filter: blur(4px);
+      opacity: 0.7;
+    }
+
+    .back-link {
+      color: var(--light-text);
+      text-decoration: none;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      transition: all 0.3s;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      padding: 8px 15px;
+      border: 1px solid var(--neon-orange);
+      display: inline-block;
+      overflow: hidden;
+    }
+
+    .back-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: var(--neon-orange);
+      transition: all 0.3s;
+      z-index: -1;
+    }
+
+    .back-link:hover {
+      color: white;
+      box-shadow: 0 0 8px rgba(255, 85, 0, 0.5);
+    }
+
+    .back-link:hover::before {
+      left: 0;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .login-container {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      border-radius: 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 85, 0, 0.1);
+      position: relative;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--neon-orange), transparent);
+    }
+
+    .login-container h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      color: var(--light-text);
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .error-messages {
+      background-color: rgba(255, 0, 0, 0.2);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      padding: 15px;
+      margin-bottom: 20px;
+      color: #ff6b6b;
+      font-size: 14px;
+    }
+
+    .error-messages ul {
+      list-style-position: inside;
+      margin: 0;
+      padding: 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: var(--light-text);
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 15px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--light-text);
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--neon-orange);
+      box-shadow: 0 0 8px rgba(255, 85, 0, 0.5);
+    }
+
+    .form-button {
+      background-color: var(--neon-orange);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      width: 100%;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2px;
+      font-size: 18px;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .form-button:hover {
+      background-color: #ff6a1f;
+      box-shadow: 0 0 15px rgba(255, 85, 0, 0.7);
+    }
+
+    .alt-action {
+      text-align: center;
+      margin-top: 25px;
+      color: #aaa;
+    }
+
+    .alt-action a {
+      color: var(--neon-orange);
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s;
+      margin-left: 5px;
+    }
+
+    .alt-action a:hover {
+      text-shadow: 0 0 8px rgba(255, 85, 0, 0.5);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: var(--darker-bg);
+      color: #777;
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-orange), transparent);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      header h1 {
+        font-size: 32px;
+        margin-bottom: 15px;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .login-container {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RAW REBEL</h1>
+    <a href="/homepage" class="back-link">← Back to Home</a>
+  </header>
+
+  <main>
+    <div class="login-container">
+      <h2>Login</h2>
+
+      {% if messages %}
+        <div class="error-messages">
+          <ul>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-input" required>
+        </div>
+
+        <button type="submit" class="form-button">Login</button>
+      </form>
+
+      <div class="alt-action">
+        Don't have an account?<a href="{% url 'signup' %}">Sign up</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 RAW REBEL | All Rights Reserved</p>
+  </footer>
+</body>
+</html>

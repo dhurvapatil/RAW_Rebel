@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ product.product_name }} | RAW REBEL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    :root {
+      --neon-orange: #ff5500;
+      --neon-blue: #00f0ff;
+      --dark-bg: #111111;
+      --darker-bg: #000000;
+      --light-text: #f5f5f5;
+      --glow-shadow: 0 0 10px rgba(255, 85, 0, 0.7);
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--light-text);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="10" y="10"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="30" y="40"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="70" y="20"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="50" y="60"/><rect width="1" height="1" fill="rgba(255,255,255,0.05)" x="80" y="80"/></svg>');
+      opacity: 0.3;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    header {
+      background-color: var(--darker-bg);
+      color: var(--light-text);
+      padding: 20px 40px;
+      border-bottom: 2px solid var(--neon-orange);
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 42px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+      display: inline-block;
+      color: var(--light-text);
+      text-shadow: 0 0 10px rgba(255, 85, 0, 0.5);
+    }
+
+    header h1::after {
+      content: 'RAW REBEL';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--neon-orange);
+      z-index: -1;
+      filter: blur(4px);
+      opacity: 0.7;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin-top: 15px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--light-text);
+      font-weight: bold;
+      text-transform: uppercase;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+      font-size: 18px;
+      position: relative;
+      padding: 5px 0;
+      transition: color 0.3s;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--neon-orange);
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: var(--neon-orange);
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+      gap: 15px;
+    }
+
+    .auth-btn {
+      background-color: transparent;
+      color: var(--light-text);
+      border: 1px solid var(--neon-orange);
+      padding: 8px 15px;
+      text-decoration: none;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+      font-size: 16px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: var(--neon-orange);
+      transition: all 0.3s;
+      z-index: -1;
+    }
+
+    .auth-btn:hover {
+      color: white;
+      box-shadow: 0 0 8px rgba(255, 85, 0, 0.5);
+    }
+
+    .auth-btn:hover::before {
+      left: 0;
+    }
+
+    .auth-btn.signup {
+      background-color: var(--neon-orange);
+      color: white;
+    }
+
+    .auth-btn.signup::before {
+      background-color: transparent;
+    }
+
+    .auth-btn.signup:hover {
+      background-color: transparent;
+      color: var(--light-text);
+    }
+
+    .welcome-text {
+      color: var(--neon-orange);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+      font-size: 16px;
+    }
+
+    main {
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .product-detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 0;
+      padding: 40px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      position: relative;
+      border: 1px solid rgba(255, 85, 0, 0.1);
+    }
+
+    .product-detail::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--neon-orange), transparent);
+    }
+
+    .product-image-container {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 85, 0, 0.2);
+    }
+
+    .product-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s;
+      filter: contrast(1.1);
+    }
+
+    .product-image:hover {
+      transform: scale(1.03);
+    }
+
+    .product-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-info h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 42px;
+      color: var(--light-text);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .product-info h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background-color: var(--neon-orange);
+    }
+
+    .product-meta {
+      margin-bottom: 20px;
+    }
+
+    .product-meta p {
+      margin: 8px 0;
+      color: #aaa;
+    }
+
+    .product-meta strong {
+      color: var(--light-text);
+      margin-right: 10px;
+    }
+
+    .price {
+      font-size: 32px;
+      font-weight: bold;
+      color: var(--neon-orange);
+      text-shadow: 0 0 5px rgba(255, 85, 0, 0.3);
+      margin: 15px 0 25px;
+    }
+
+    .product-description {
+      color: var(--light-text);
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .add-to-cart-btn {
+      background-color: transparent;
+      color: var(--light-text);
+      border: 2px solid var(--neon-orange);
+      padding: 12px 30px;
+      border-radius: 0;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      position: relative;
+      overflow: hidden;
+      align-self: flex-start;
+    }
+
+    .add-to-cart-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: var(--neon-orange);
+      transition: all 0.3s;
+      z-index: -1;
+    }
+
+    .add-to-cart-btn:hover {
+      color: white;
+      box-shadow: 0 0 15px rgba(255, 85, 0, 0.7);
+    }
+
+    .add-to-cart-btn:hover::before {
+      left: 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--light-text);
+      text-decoration: none;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      transition: all 0.3s;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+    }
+
+    .back-link:hover {
+      color: var(--neon-orange);
+      text-shadow: 0 0 8px rgba(255, 85, 0, 0.5);
+    }
+
+    .pub-date {
+      font-size: 14px;
+      color: #777;
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    footer {
+      text-align: center;
+      padding: 50px 20px 30px;
+      background-color: var(--darker-bg);
+      color: #fff;
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--neon-orange), transparent);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      text-align: left;
+      margin-bottom: 50px;
+    }
+
+    .footer-section h3 {
+      color: var(--neon-orange);
+      margin-bottom: 25px;
+      font-size: 20px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 12px;
+    }
+
+    .footer-section ul li a {
+      color: #aaa;
+      text-decoration: none;
+      transition: all 0.3s;
+      position: relative;
+      padding-left: 0;
+    }
+
+    .footer-section ul li a::before {
+      content: '›';
+      position: absolute;
+      left: -15px;
+      opacity: 0;
+      color: var(--neon-orange);
+      transition: all 0.3s;
+    }
+
+    .footer-section ul li a:hover {
+      color: var(--light-text);
+      padding-left: 15px;
+    }
+
+    .footer-section ul li a:hover::before {
+      opacity: 1;
+      left: 0;
+    }
+
+    .copyright {
+      padding-top: 30px;
+      border-top: 1px solid #333;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+      }
+
+      header h1 {
+        font-size: 32px;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .auth-buttons {
+        width: 100%;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .product-detail {
+        grid-template-columns: 1fr;
+        padding: 20px;
+      }
+
+      .product-info h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>RAW REBEL</h1>
+    <nav>
+      <ul>
+        <li><a href="/homepage">Home</a></li>
+        <li><a href="{% url 'products' %}">Products</a></li>
+        <li><a href="{% url 'collections' %}">Collections</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="auth-buttons">
+      {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="auth-btn">Logout</a>
+        <span class="welcome-text">Hello, {{ user.username }}</span>
+      {% else %}
+        <a href="{% url 'login' %}" class="auth-btn">Login</a>
+        <a href="{% url 'signup' %}" class="auth-btn signup">Sign Up</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main>
+    <section class="product-detail">
+      <div class="product-image-container">
+        <img src="{{ product.image.url }}" alt="{{ product.product_name }}" class="product-image">
+      </div>
+      <div class="product-info">
+        <h1>{{ product.product_name }}</h1>
+        <div class="product-meta">
+          <p><strong>Category:</strong> {{ product.category }}</p>
+          <p><strong>Subcategory:</strong> {{ product.subcategory }}</p>
+        </div>
+        <div class="price">₹{{ product.price }}</div>
+        <div class="product-description">
+          {{ product.desc }}
+        </div>
+        <form action="{% url 'add_to_cart' product.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+        </form>
+        <p class="pub-date"><small>Published on: {{ product.pub_date }}</small></p>
+        <a href="/homepage" class="back-link">← Back to Home</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>About RAW REBEL</h3>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Manifesto</a></li>
+          <li><a href="#">Join The Team</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Customer Service</h3>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Shipping & Returns</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Policies</h3>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Return Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Connect With Us</h3>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">Twitter</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 RAW REBEL | All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <!-- React JS -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  
+  <!-- Our React Components -->
+  <script src="/static/shop/js/components.js" type="text/babel"></script>
+  <script src="/static/shop/js/app.js" type="text/babel"></script>
+
+  <script type="text/babel">
+    // Convert Django template data to JSON for React
+    document.addEventListener('DOMContentLoaded', function() {
+      const productDetailSection = document.querySelector('.product-detail');
+      
+      if (productDetailSection) {
+        // Create a container for React
+        const reactContainer = document.createElement('div');
+        reactContainer.id = 'react-product-detail';
+        
+        // Extract product data from existing DOM
+        const productData = {
+          id: '{{ product.id }}',
+          name: '{{ product.product_name }}',
+          category: '{{ product.category }}',
+          subcategory: '{{ product.subcategory }}',
+          price: '{{ product.price }}',
+          description: `{{ product.desc|escapejs }}`,
+          pub_date: '{{ product.pub_date }}',
+          image: '{{ product.image.url }}'
+        };
+        
+        // Set data attribute and replace DOM
+        reactContainer.setAttribute('data-product', JSON.stringify(productData));
+        productDetailSection.parentNode.replaceChild(reactContainer, productDetailSection);
+      }
+    });
+  </script>
+</body>
+</html>
