@@ -1,0 +1,27 @@
+[phases.setup]
+commands = [
+  "python -m venv /opt/venv",
+  "source /opt/venv/bin/activate",
+  "pip install --upgrade pip"
+]
+
+[phases.install]
+commands = [
+  "source /opt/venv/bin/activate",
+  "pip install -r requirements.txt"
+]
+
+[phases.build]
+commands = [
+  "source /opt/venv/bin/activate",
+  "python manage.py collectstatic --noinput"
+]
+
+[phases.start]
+commands = [
+  "source /opt/venv/bin/activate",
+  "gunicorn ecommerce.wsgi"
+]
+
+[environment]
+PATH = "/opt/venv/bin:$PATH"
