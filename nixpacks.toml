@@ -6,8 +6,7 @@ commands = [
 
 [phases.install]
 commands = [
-  "/opt/venv/bin/pip install -r requirements.txt",
-  "/opt/venv/bin/pip install gunicorn"   # explicitly install gunicorn if not in requirements.txt
+  "/opt/venv/bin/pip install -r requirements.txt"
 ]
 
 [phases.build]
